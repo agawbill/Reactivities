@@ -5,6 +5,7 @@ using Domain;
 using MediatR;
 using Persistence;
 
+
 namespace Application.Activities
 {
     public class Create
@@ -23,6 +24,7 @@ namespace Application.Activities
         public class Handler : IRequestHandler<Command>
         {
             private readonly DataContext _context;
+
             public Handler(DataContext context)
             {
                 _context = context;
@@ -44,7 +46,6 @@ namespace Application.Activities
                 _context.Activities.Add(activity);
                 var success = await _context.SaveChangesAsync() > 0;
                 if (success) return Unit.Value;
-
                 throw new Exception("Problem Saving Changes");
 
             }

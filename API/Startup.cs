@@ -33,7 +33,7 @@ namespace API
             {
                 opt.AddPolicy("CorsPolicy", policy =>
                 {
-                    policy.AllowAnyHeader().WithOrigins("http://localhost:3000");
+                    policy.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:3000");
                 });
             });
 
@@ -56,6 +56,11 @@ namespace API
             app.UseCors("CorsPolicy");
 
             app.UseAuthorization();
+            app.Use(async (context, next) =>
+            {
+                context.Response.Headers.Add("X-Developed-By", "Your Name");
+                await next.Invoke();
+            });
 
             app.UseEndpoints(endpoints =>
             {
